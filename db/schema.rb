@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150730045247) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.string   "name"
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 20150730045247) do
     t.string   "password_digest"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
   create_table "work_details", force: :cascade do |t|
     t.integer  "user_id"
