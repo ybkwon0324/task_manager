@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>使用者リスト</h1>
+<%= page_entries_info @users %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>メール</th>
+      <th>お名前</th>
+      <th>ポイント</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.name %></td>
+        <td><%= user.point %></td>
+        <td>
+          <%= link_to '移動', user %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<div style='text-align:center;'>
+  <%= paginate @users %>
+</div>

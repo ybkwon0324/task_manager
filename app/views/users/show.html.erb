@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+    <p id="notice"><%= notice %></p>
+
+    <p>
+    <strong>お名前</strong>
+    <%= @user.name %>
+    </p>
+
+    <p>
+    <strong>メール</strong>
+    <%= @user.email %>
+    </p>
+
+    <p>
+    <strong>現在ポイント:</strong>
+    <%= @user.point %>
+    </p>
+
+    <p>
+    <% if @user.works.empty? %>
+      <div class="alert alert-danger" role="alert">
+        作業リストがございません。
+      </div>
+    <% else %>
+      <% @work_detail.each do |w| %>
+        <div class="alert alert-info" role="alert">
+          <strong>作業タイトル：<%= w.title %></strong><br/>
+          <strong>Start時間：</strong><%= w.begin_time %><br/>
+          <strong>End時間：</strong><%= w.end_time %><br/>
+          <p><strong>作業内容</strong></p>
+          <p><%= w.content %></p>
+          <br/><br/>
+          <p><strong>進捗状況</strong></p>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: <%= w.entire_percent %>%;">
+            <%= w.entire_percent %>%
+            </div>
+          </div>
+          <% @work_detail = WorkDetail.find_by(work_id: w.id, user_id: w.user_id) %>
+          <% unless @work_detail.nil? %>
+            <p>
+            詳細内容
+            </p>
+              <p>
+              <strong>作業内容：<%= @work_detail.content_detail %></strong>
+              <% if @work_detail.completion %>
+                <b> 完了</b>
+              <% else %>
+                <b>進行中</b>
+                <button class: "btn btn-success">完了</button>
+              <% end %>
+              </p>
+            <% end %>
+        </div>
+      <% end %>
+  <% end %>
+    </p>
+      <% if @user.id == current_user.id %>
+      <%= link_to 'リスト作成', new_user_work_path(@work,user_id: @user.id),as: :post, class: "btn btn-success" %>
+      <%= link_to 'Edit', edit_user_path(@user), class: "btn btn-primary" %>
+    <% end %>
+    <%= link_to 'Back', users_path, class: "btn btn-danger" %>
+  </div>
+</div>

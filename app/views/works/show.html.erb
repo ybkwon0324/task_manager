@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @work.user_id %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @work.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @work.content %>
+</p>
+
+<p>
+  <strong>Begin time:</strong>
+  <%= @work.begin_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @work.end_time %>
+</p>
+
+<p>
+  <strong>Entire percent:</strong>
+  <%= @work.entire_percent %>
+</p>
+
+<%= link_to '詳しいリスト作成', new_user_work_work_details_path(@work_detail, user_id: @work.user_id, work_id: @work.id),as: :post, class: "btn btn-success" %>
+<%= link_to 'Edit', edit_user_work_path(@work, id: @work.id) %> |
+<%= link_to 'Back', user_works_path %>

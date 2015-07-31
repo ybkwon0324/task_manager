@@ -1,0 +1,39 @@
+<%= form_for [:user, @work] do |f| %>
+  <% if @work.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@work.errors.count, "error") %> prohibited this work from being saved:</h2>
+
+      <ul>
+      <% @work.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.hidden_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :title, "タイトル" %><br>
+    <%= f.text_field :title, class: 'form-control' %>
+  </div>
+  <div class="field">
+    <%= f.label :content, "作業内容" %><br>
+    <%= f.text_area :content, class: 'form-control' %>
+  </div>
+  <div class="field">
+    <%= f.label :begin_time, "スタート時間" %><br>
+    <%= f.datetime_select :begin_time, class: 'form-control' %>
+  </div>
+  <div class="field">
+    <%= f.label :end_time, "終了予定時間" %><br>
+    <%= f.datetime_select :end_time, class: 'form-control' %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :entire_percent %>
+  </div>
+  <div class="actions">
+    <%= f.submit "登録", class: "btn btn-primary" %>
+  </div>
+<% end %>

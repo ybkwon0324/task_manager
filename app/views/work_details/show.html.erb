@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @work_detail.user_id %>
+</p>
+
+<p>
+  <strong>Work:</strong>
+  <%= @work_detail.work_id %>
+</p>
+
+<p>
+  <strong>Content detail:</strong>
+  <%= @work_detail.content_detail %>
+</p>
+
+<p>
+  <strong>Completion:</strong>
+  <%= @work_detail.completion %>
+</p>
+
+<%= link_to 'Edit', edit_work_detail_path(@work_detail) %> |
+<%= link_to 'Back', work_details_path %>

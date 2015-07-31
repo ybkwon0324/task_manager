@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h1>タスクマネージヤー</h1>
+    <div class="jumbotron">
+      <h2>タスクマネージャー</h2>
+      <p>自分のタスクを管理するウェブアプリケーションです。</p>
+      <p>大事な時間を効率的に使いましょう！</p>
+    </div>
+    <% if !logged_in? %>
+    <%= form_for(:session, url: login_path) do |f| %>
+      <%= f.label :email, 'メール' %>
+      <%= f.email_field :email, class: 'form-control' %>
+      
+      <%= f.label :password, 'パスワード' %>
+      <%= f.password_field :password, class: 'form-control' %>
+      
+      <%= f.submit "ログイン", class: "btn btn-primary" %>
+    <% end %>
+    
+    <p>タスクマネージャーが初めてですか？<%= link_to "新規登録", new_user_path %></p>
+  <% end %>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Work Details</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Work</th>
+      <th>Content detail</th>
+      <th>Completion</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @work_details.each do |work_detail| %>
+      <tr>
+        <td><%= work_detail.user_id %></td>
+        <td><%= work_detail.work_id %></td>
+        <td><%= work_detail.content_detail %></td>
+        <td><%= work_detail.completion %></td>
+        <td><%= link_to 'Show', work_detail %></td>
+        <td><%= link_to 'Edit', edit_work_detail_path(work_detail) %></td>
+        <td><%= link_to 'Destroy', work_detail, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Work detail', new_work_detail_path %>

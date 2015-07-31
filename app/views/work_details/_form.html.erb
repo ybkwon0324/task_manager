@@ -1,0 +1,31 @@
+<%= form_for [:user, :work, @work_detail] do |f| %>
+  <% if @work_detail.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@work_detail.errors.count, "error") %> prohibited this work_detail from being saved:</h2>
+
+      <ul>
+      <% @work_detail.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.hidden_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.hidden_field :work_id %>
+  </div>
+  <div class="field">
+    <%= f.label :content_detail %><br>
+    <%= f.text_field :content_detail %>
+  </div>
+  <div class="field">
+    <%= f.label :completion %><br>
+    <%= f.check_box :completion %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
