@@ -14,6 +14,8 @@ class WorkDetailsController < ApplicationController
 
   # GET /work_details/new
   def new
+    @work_details = WorkDetail.where(["user_id = ? and work_id = ?", params[:user_id], params[:work_id]])
+    @work = Work.find(params[:work_id])
     @work_detail = WorkDetail.new
     @work_detail.user_id = params[:user_id]
     @work_detail.work_id = params[:work_id]
@@ -28,29 +30,32 @@ class WorkDetailsController < ApplicationController
   def create
     @work_detail = WorkDetail.new(work_detail_params)
 
-    respond_to do |format|
       if @work_detail.save
-        format.html { redirect_to @work_detail, notice: 'Work detail was successfully created.' }
-        format.json { render :show, status: :created, location: @work_detail }
+        redirect_to new_user_work_work_details_path(user_id: @work_detail.user_id, work_id: @work_detail.work_id),as: :post
       else
-        format.html { render :new }
-        format.json { render json: @work_detail.errors, status: :unprocessable_entity }
+        render :new
       end
-    end
   end
 
   # PATCH/PUT /work_details/1
   # PATCH/PUT /work_details/1.json
+  # ここでは各細かい作業に関してcompletionをtrueにする
   def update
-    respond_to do |format|
-      if @work_detail.update(work_detail_params)
-        format.html { redirect_to @work_detail, notice: 'Work detail was successfully updated.' }
-        format.json { render :show, status: :ok, location: @work_detail }
+    @work_detail = WorkDetail.find_by(id: params[:id], user_id: params[:user_id], work_id: params[:work_id])
+
+    @work_detail.completion = true
+      if @work_detail.save
+        # update for users
+        works_true = WorkDetail.where(["user_id = ? and work_id = ? and completion = ?", params[:user_id], params[:work_id], true])
+        works_false = WorkDetail.where(["user_id = ? and work_id = ? and completion = ?", params[:user_id], params[:work_id], false])
+        percentage = (works_true.count.to_f / (works_true.count.to_f + works_false.count.to_f) * 100).to_i
+        work = Work.find_by(id: params[:work_id], user_id: params[:user_id])
+        work.entire_percent = percentage
+        work.save
+        redirect_to user_path(id: @work_detail.user_id, page: params[:page])
       else
-        format.html { render :edit }
-        format.json { render json: @work_detail.errors, status: :unprocessable_entity }
+        render :edit
       end
-    end
   end
 
   # DELETE /work_details/1

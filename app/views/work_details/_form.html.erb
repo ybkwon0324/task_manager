@@ -18,14 +18,14 @@
     <%= f.hidden_field :work_id %>
   </div>
   <div class="field">
-    <%= f.label :content_detail %><br>
-    <%= f.text_field :content_detail %>
+    <%= f.label :content_detail, "内容" %><br>
+    <%= f.text_field :content_detail, class: 'form-control' %>
   </div>
   <div class="field">
-    <%= f.label :completion %><br>
-    <%= f.check_box :completion %>
+    <%= f.hidden_field :completion %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "追加", class: "btn btn-primary" %>
+    <%= link_to 'Back', user_path(id: @work_detail.user_id), class: "btn btn-danger" %>
   </div>
 <% end %>

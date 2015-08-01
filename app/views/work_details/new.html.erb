@@ -1,4 +1,38 @@
-<h1>New Work Detail</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+<h1>詳しい作業リストを作成</h1>
+
+<% if !@work.blank? %>
+  <div class="alert alert-info" role="alert">
+  <p>
+  <strong>タイトル：</strong><%= @work.title %>
+  </p>
+  <p>
+  <strong>作業内容：</strong><%= @work.content %>
+  </p>
+  <p>
+  <strong>スタート時間：</strong><%= @work.begin_time %>
+  </p>
+  <p>
+  <strong>終了予定時間：</strong><%= @work.end_time %>
+  </p>
+</div>
+<% end %>
+<% if !@work_details.blank? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>詳しい作業リスト</th>
+      </thead>
+    </tbody>
+  <% @work_details.each do |d| %>
+    <tr>
+      <td><%= d.content_detail %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+<% end %>
 
 <%= render 'form' %>
 

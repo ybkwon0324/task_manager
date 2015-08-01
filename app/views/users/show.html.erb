@@ -38,24 +38,55 @@
             <%= w.entire_percent %>%
             </div>
           </div>
-          <% @work_detail = WorkDetail.find_by(work_id: w.id, user_id: w.user_id) %>
-          <% unless @work_detail.nil? %>
-            <p>
-            詳細内容
-            </p>
-              <p>
-              <strong>作業内容：<%= @work_detail.content_detail %></strong>
-              <% if @work_detail.completion %>
-                <b> 完了</b>
-              <% else %>
-                <b>進行中</b>
-                <button class: "btn btn-success">完了</button>
+          <% @work_details = WorkDetail.where(["user_id = ? and work_id = ?", w.user_id, w.id]) %>
+          <% unless @work_details.nil? %>
+          <p><strong>詳細リスト</strong></p>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>番号</th>
+                  <th>内容</th>
+                  <th>状態</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% count = 1 %>
+                <% @work_details.each do |d| %>
+              <tr>
+                <td><%= count %></td>
+                <td><%= d.content_detail %></td>
+                <td>
+                  <% if d.completion %>
+                    完了
+                  <% else %>
+                    進行中
+                  <% end %>
+                </td>
+                <% if d.completion  %>
+                  <td></td>
+                <% else %>
+                  <% if @user.id == current_user.id %>
+                  <td>
+                    <%= link_to "完了", user_work_work_details_path(id: d.id, user_id: d.user_id, work_id: d.work_id, page: params[:page]), method: :patch %>
+                  </td>
+                  <% else %>
+                  <td></td>
+                  <% end %>
+                <% end %>
+              </tr>
+            </tbody>
+            <% count = count + 1 %>
               <% end %>
-              </p>
+            </table>
             <% end %>
         </div>
       <% end %>
-  <% end %>
+    <% end %>
+    <div style='text-align:center;'>
+      <%= paginate @work_detail %>
+    </div>
     </p>
       <% if @user.id == current_user.id %>
       <%= link_to 'リスト作成', new_user_work_path(@work,user_id: @user.id),as: :post, class: "btn btn-success" %>

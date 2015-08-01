@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   has_many :works
   has_many :work_details, through: :works
 
+  default_scope { order('created_at DESC') }
+
   before_save { self.email = email.downcase }
   default_value_for :point, 0
 
