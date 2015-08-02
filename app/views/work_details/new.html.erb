@@ -11,10 +11,10 @@
   <strong>作業内容：</strong><%= @work.content %>
   </p>
   <p>
-  <strong>スタート時間：</strong><%= @work.begin_time %>
+  <strong>スタート時間：</strong><%= @work.begin_time.strftime('%Y/%m/%d %H:%M:%S') %>
   </p>
   <p>
-  <strong>終了予定時間：</strong><%= @work.end_time %>
+  <strong>終了予定時間：</strong><%= @work.end_time.strftime('%Y/%m/%d %H:%M:%S') %>
   </p>
 </div>
 <% end %>
@@ -35,5 +35,3 @@
 <% end %>
 
 <%= render 'form' %>
-
-<%= link_to 'Back', user_work_work_details_path %>

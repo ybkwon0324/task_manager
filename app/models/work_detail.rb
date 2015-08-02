@@ -4,4 +4,6 @@ class WorkDetail < ActiveRecord::Base
   default_scope { order('created_at DESC') }
 
   default_value_for :completion, false
+
+  validates :content_detail, presence: true
 end

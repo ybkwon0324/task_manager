@@ -21,6 +21,10 @@ gem "default_value_for", "~> 3.0.0"
 gem 'bcrypt'
 # Pagination
 gem 'kaminari'
+# jQuery countdown
+gem 'jquery-countdown-rails'
+# time_difference
+gem 'time_difference'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

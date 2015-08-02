@@ -27,17 +27,27 @@
       <% @work_detail.each do |w| %>
         <div class="alert alert-info" role="alert">
           <strong>作業タイトル：<%= w.title %></strong><br/>
-          <strong>Start時間：</strong><%= w.begin_time %><br/>
-          <strong>End時間：</strong><%= w.end_time %><br/>
-          <p><strong>作業内容</strong></p>
-          <p><%= w.content %></p>
-          <br/><br/>
+          <strong>スタート時間：</strong><%= w.begin_time.strftime('%Y/%m/%d %H:%M:%S') %><br/>
+          <strong>終了予定時間：</strong><%= w.end_time.strftime('%Y/%m/%d %H:%M:%S') %><br/>
           <p><strong>進捗状況</strong></p>
           <div class="progress">
-            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: <%= w.entire_percent %>%;">
+            <% if w.entire_percent == 100 %>
+              <div class=" progress-bar progress-bar-success" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: <%= w.entire_percent %>%;">
+              <% else %>
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: <%= w.entire_percent %>%;">
+                <% end %>
             <%= w.entire_percent %>%
             </div>
           </div>
+          <% if !(w.entire_percent == 100) %>
+            <% if Time.now > w.end_time %>
+              <strong>残り時間：</strong>時間が過ぎた作業です。<br/>
+            <% else %>
+              <strong>残り時間：</strong><span id="clock_<%= w.id %>"></span>
+            <% end %>
+          <% end %>
+          <p><strong>作業内容</strong></p>
+          <pre><%= w.content %></pre>
           <% @work_details = WorkDetail.where(["user_id = ? and work_id = ?", w.user_id, w.id]) %>
           <% unless @work_details.nil? %>
           <p><strong>詳細リスト</strong></p>
@@ -90,8 +100,14 @@
     </p>
       <% if @user.id == current_user.id %>
       <%= link_to 'リスト作成', new_user_work_path(@work,user_id: @user.id),as: :post, class: "btn btn-success" %>
-      <%= link_to 'Edit', edit_user_path(@user), class: "btn btn-primary" %>
     <% end %>
-    <%= link_to 'Back', users_path, class: "btn btn-danger" %>
+    <%= link_to 'Back', users_path, class: "btn btn-info" %>
   </div>
 </div>
+<script>
+  <% @work_detail.each do |w|  %>
+    <% s = Time.now %>
+    <% r = TimeDifference.between(s, w.end_time).in_general %>
+    $("#clock_<%= w.id %>").countdown({until: '+<%= r[:days] %>d +<%= r[:hours] %>h +<%= r[:minutes] %>m +<%= r[:seconds]%>s', layout: '{d<}{dn} {dl} {d>}{h<}{hn} {hl} {h>}{m<}{mn} {ml} {m>}{s<}{sn} {sl}{s>}'});
+  <% end %>
+</script>

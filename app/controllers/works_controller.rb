@@ -6,6 +6,7 @@ class WorksController < ApplicationController
   end
 
   def show
+    redirect_to new_user_work_work_details_path(@work_detail, user_id: @work.user_id, work_id: @work.id),as: :post
   end
 
   def new
@@ -19,13 +20,11 @@ class WorksController < ApplicationController
   def create
     @work = Work.new(work_params)
 
-    respond_to do |format|
       if @work.save
-        format.html { redirect_to user_work_path(@work, user_id: @work.user_id), notice: 'Work was successfully created.' }
+        redirect_to user_work_path(@work, user_id: @work.user_id)
       else
-        format.html { render :new }
+        render :new
       end
-    end
   end
 
   private

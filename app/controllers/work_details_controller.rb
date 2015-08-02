@@ -51,7 +51,22 @@ class WorkDetailsController < ApplicationController
         percentage = (works_true.count.to_f / (works_true.count.to_f + works_false.count.to_f) * 100).to_i
         work = Work.find_by(id: params[:work_id], user_id: params[:user_id])
         work.entire_percent = percentage
+        if percentage == 100
+          puts "=================== 100 %"
+          if Time.now > work.end_time
+            puts "============================== +5 ==================="
+            work.user.point = work.user.point.to_i + 5
+            puts "user.point ==="
+            puts work.user.point
+          else Time.now < work.end_time
+            puts "============================== +10 ===================="
+            work.user.point = work.user.point.to_i + 10
+            puts "user.point ==="
+            puts work.user.point
+          end
+        end
         work.save
+        work.user.save!
         redirect_to user_path(id: @work_detail.user_id, page: params[:page])
       else
         render :edit
